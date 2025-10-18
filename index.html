@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>root@you — Hacker Portfolio</title>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<style>
+  :root{
+    --bg-url: url('bg.jpg'); /* <-- change to a URL or local file name (e.g. 'bg.jpg') */
+    --bg-color: #020202;
+    --panel: rgba(4,12,6,0.6);
+    --green: #33ff7a;
+    --muted: #6feeb0;
+    --glass: rgba(255,255,255,0.02);
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace;
+  }
+
+  /* Page base */
+  html,body{height:100%;margin:0;background:var(--bg-color);font-family:var(--mono);color:var(--green);-webkit-font-smoothing:antialiased;}
+  .wrap{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    background-image:
+      linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.65)),
+      var(--bg-url);
+    background-size:cover;
+    background-position:center;
+    background-attachment: fixed;
+  }
+
+  /* subtle noise overlay */
+  .wrap::after{
+    content:"";
+    position:fixed;inset:0;pointer-events:none;
+    background-image: linear-gradient(transparent 92%, rgba(0,0,0,0.05) 100%);
+    mix-blend-mode:overlay;
+    opacity:0.6;
+  }
+
+  header.navbar{
+    display:flex;align-items:center;padding:14px 20px;gap:16px;
+    background: linear-gradient(90deg, rgba(0,0,0,0.2), rgba(0,0,0,0.15));
+    border-bottom:1px solid rgba(51,255,122,0.05);
+    backdrop-filter: blur(6px);
+  }
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--green);font-weight:700;font-size:16px}
+  .brand .dot{width:12px;height:12px;border-radius:3px;background:var(--green);box-shadow:0 0 12px rgba(51,255,122,0.2)}
+  nav ul{display:flex;gap:8px;list-style:none;margin:0;padding:0}
+  nav a{color:var(--green);text-decoration:none;padding:8px 10px;border-radius:6px;font-size:14px;border:1px solid rgba(51,255,122,0.03)}
+  nav a:focus, nav a:hover{background:rgba(51,255,122,0.03);outline:none;box-shadow:0 6px 18px rgba(51,255,122,0.03)}
+  nav a.active{background: rgba(51,255,122,0.05);box-shadow:inset 0 0 20px rgba(51,255,122,0.02)}
+
+  /* hero */
+  .hero{display:flex;gap:30px;padding:48px 20px;align-items:center;max-width:1100px;margin:0 auto;width:100%}
+  .hero-left{flex:1;min-width:260px}
+  .title{font-size:28px;margin:0 0 8px 0;color:#eafff0}
+  .handle{font-size:13px;color:var(--muted);margin-bottom:14px}
+  .terminal{
+    background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.45));
+    border:1px solid rgba(51,255,122,0.04);
+    padding:18px;border-radius:10px;color:var(--green);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    font-size:13px;
+  }
+  .typed-cursor{display:inline-block;width:10px;height:18px;background:var(--green);margin-left:8px;vertical-align:middle;animation:blink 1s steps(1) infinite;border-radius:2px}
+  @keyframes blink{50%{opacity:0}}
+
+  /* quick links */
+  .quicklinks{display:flex;gap:10px;margin-top:12px}
+  .btn{background:transparent;border:1px solid rgba(51,255,122,0.06);padding:8px 12px;border-radius:8px;color:var(--green);text-decoration:none;font-size:13px}
+  .btn:hover{background:rgba(51,255,122,0.03)}
+
+  /* hero right - profile card */
+  .hero-right{width:260px;min-width:220px}
+  .card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:10px;padding:12px;border:1px solid rgba(255,255,255,0.03);
+  }
+  .avatar{
+    width:100%;height:160px;border-radius:8px;background:linear-gradient(90deg,#052a12,#032318);
+    display:flex;align-items:center;justify-content:center;font-size:48px;color:rgba(255,255,255,0.06);
+    margin-bottom:12px;position:relative;overflow:hidden;border:1px solid rgba(51,255,122,0.03)
+  }
+  .status{font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+  .chips{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .chip{background:rgba(51,255,122,0.03);padding:6px 8px;border-radius:6px;font-size:12px}
+
+  /* main sections */
+  main {max-width:1100px;margin:28px auto;padding:0 20px 80px 20px;width:100%;}
+  section{margin-bottom:28px}
+  h2{color:#dfffe7;margin:4px 0 12px 0;font-size:18px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .card-project{
+    background:linear-gradient(180deg, rgba(0,0,0,0.46), rgba(0,0,0,0.36));
+    border:1px solid rgba(51,255,122,0.04);
+    padding:12px;border-radius:10px;
+  }
+  .proj-title{font-weight:700;color:#eafff0;margin:0 0 8px 0}
+  .proj-desc{font-size:13px;color:var(--muted);margin:0 0 8px 0}
+  .proj-tags{display:flex;gap:6px;flex-wrap:wrap}
+  .tag{font-size:12px;padding:4px 8px;border-radius:6px;background:rgba(51,255,122,0.03)}
+
+  /* contact */
+  form input, form textarea{
+    width:100%;background:transparent;border:1px solid rgba(51,255,122,0.05);padding:10px;border-radius:8px;color:var(--green);
+    font-family:var(--mono);font-size:13px;resize:vertical;
+  }
+  form label{display:block;margin-bottom:6px;color:var(--muted);font-size:13px}
+  .send{display:inline-block;padding:10px 14px;border-radius:8px;border:1px solid rgba(51,255,122,0.06);background:transparent;color:var(--green)}
+
+  /* footer */
+  footer{padding:18px 20px;color:var(--muted);font-size:13px;text-align:center}
+
+  /* responsive */
+  @media (max-width:880px){
+    .grid{grid-template-columns:1fr}
+    .hero{flex-direction:column;align-items:stretch;padding:28px 16px}
+    .hero-right{width:auto}
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="top">
+  <header class="navbar" role="banner">
+    <a class="brand" href="#top" aria-label="Home">
+      <div class="dot" aria-hidden="true"></div>
+      <div>root@you</div>
+    </a>
+    <nav aria-label="Primary navigation" style="margin-left:18px">
+      <ul role="menubar">
+        <li role="none"><a role="menuitem" class="active" href="#home">home</a></li>
+        <li role="none"><a role="menuitem" href="#projects">projects</a></li>
+        <li role="none"><a role="menuitem" href="#about">about</a></li>
+        <li role="none"><a role="menuitem" href="#contact">contact</a></li>
+      </ul>
+    </nav>
+    <div   style="margin-left:auto;color:var(--muted);font-size:13px">status: <strong style="color:var(--green);margin-left:8px"></strong></div>
+    <div class="status-container" id="statusContainer">
+  <div class="status-text" id="statusText">Offline</div>
+</div>
+  </header>
+
+  <section class="hero" id="home" role="region" aria-label="Introduction">
+    <div class="hero-left">
+      <h1 class="title">Hi — I'm <span style="color:var(--green)">Harsh Manda</span></h1>
+      <div class="handle">security researcher • dev • digital explorer</div>
+
+      <div class="terminal" aria-live="polite" id="term">
+        <div id="typedLine"></div><span class="typed-cursor" aria-hidden="true"></span>
+      </div>
+
+      <div class="quicklinks" role="navigation" aria-label="Quick links">
+        <a class="btn" href="#projects">Class 12th</a>
+        <a class="btn" href="#contact">get in touch</a>
+        <a class="btn" href="mailto:you@example.com">email</a>
+      </div>
+    </div>
+
+    <aside class="hero-right">
+      <div class="card" aria-label="Profile card">
+        <div class="avatar" aria-hidden="true">YOU</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-weight:700;color:#eafff0">Harsh Manda</div>
+              <div style="font-size:13px;color:var(--muted)">Full stack • security</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:12px;color:var(--muted)">rank</div>
+              <div style="font-weight:700;color:var(--green)">#42</div>
+            </div>
+          </div>
+
+          <div class="status">
+            <div>loc: <strong style="color:var(--green)">remote</strong></div>
+            <div>uptime: <strong style="color:var(--green)">12d</strong></div>
+          </div>
+
+          <div class="chips" aria-hidden="true">
+            <div class="chip">python</div>
+            <div class="chip">js</div>
+            <div class="chip">pwn</div>
+            <div class="chip">infra</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <main>
+    <section id="projects" aria-label="Projects">
+      <h2>FOR CLASS 12TH SSTUDENTS</h2>
+      <div class="grid">
+        <article class="card-project" tabindex="0" role="article" aria-labelledby="p1">
+          <h3 id="p1" class="proj-title">अध्याय: 1 व 2</h3>
+          <p class="proj-desc"><a href="chapter-1-review-of-python-basics.pdf">पाइथन बेसिक की समीक्षा</a></p>
+          <div class="proj-tags"><span class="tag">python</span><span class="tag">net</span><span class="tag">cli</span></div>
+        </article>
+
+        <article class="card-project" tabindex="0" role="article" aria-labelledby="p2">
+          <h3 id="p2" class="proj-title">अध्याय: 3</h3>
+          <p class="proj-desc"><a href="chapter-2-functions-1.pdf">फंक्शन</a></p>
+          <div class="proj-tags"><span class="tag">rust</span><span class="tag">crypto</span></div>
+        </article>
+
+        <article class="card-project" tabindex="0" role="article" aria-labelledby="p3">
+          <h3 id="p3" class="proj-title">अध्याय: 4</h3>
+          <p class="proj-desc"><a href="chapter-3-using-python-libraries.pdf">यूजिंग पाइथन लाइब्रेरी</a></p>
+          <div class="proj-tags"><span class="tag">go</span><span class="tag">api</span></div>
+        </article>
+
+        <article class="card-project" tabindex="0" role="article" aria-labelledby="p4">
+          <h3 id="p4" class="proj-title">अध्याय: 5</h3>
+          <p class="proj-desc"><a href="chapter-4-data-file-handling.pdf">डाटा फाइल हैंडलिंग</a></p>
+          <div class="proj-tags"><span class="tag">css</span><span class="tag">design</span></div>
+        </article>
+
+        <article class="card-project" tabindex="0" role="article" aria-labelledby="p4">
+          <h3 id="p4" class="proj-title">अध्याय: 6</h3>
+          <p class="proj-desc"><a href="chapter-6-recursion-1.pdf">रिकर्शन</a></p>
+          <div class="proj-tags"><span class="tag">css</span><span class="tag">design</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" aria-label="About me">
+      <h2>About</h2>
+      <p style="color:var(--muted);max-width:70ch">
+        I'm a developer and security-minded tinkerer who builds tools, automations, and interfaces.
+        I enjoy taking complex systems and making them scriptable and observable. Replace this text
+        with your bio, links to your GitHub, resume, or other highlights.
+      </p>
+    </section>
+
+    <section id="contact" aria-label="Contact">
+      <h2>Contact</h2>
+      <p style="color:var(--muted);margin-bottom:12px">Want to collaborate? Send a message or email me directly.</p>
+      <form onsubmit="handleForm(event)" aria-label="Contact form">
+        <label for="name">name</label>
+        <input id="name" name="name" required placeholder="Ada Lovelace">
+
+        <label for="email">email</label>
+        <input id="email" name="email" type="email" required placeholder="you@example.com">
+
+        <label for="message">message</label>
+        <textarea id="message" name="message" rows="5" required placeholder="Short message..."></textarea>
+
+        <div style="margin-top:10px">
+          <button class="send" type="submit">send</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div>© <span id="year"></span> your handle — built with green pixels</div>
+  </footer>
+</div>
+<script>
+  const statuses = ["Connecting...","Connected", "Online", "Satellite Connection"];
+  let index = 0;
+  const statusTextEl = document.getElementById("statusText");
+  const containerEl = document.getElementById("statusContainer");
+
+  function showStatus(status) {
+    statusTextEl.classList.remove("show");
+    // remove online class
+    containerEl.classList.remove("status-online");
+    setTimeout(() => {
+      statusTextEl.textContent = status;
+      if (status.toLowerCase().includes("online")) {
+        containerEl.classList.add("status-online");
+      }
+      statusTextEl.classList.add("show");
+    }, 500);
+  }
+
+  function cycleStatuses() {
+    showStatus(statuses[index]);
+    index = (index + 1) % statuses.length;
+  }
+
+  // Start
+  cycleStatuses();
+  setInterval(cycleStatuses, 4000);  // change every 4 seconds
+</script>
+
+
+
+<script>
+  // fill year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // typing effect for terminal box
+  const lines = [
+    "booting... ok",
+    "loading modules: core, net, ui",
+    "ssh-key: loaded",
+    "welcome, root@you. type 'help' to begin"
+  ];
+  const el = document.getElementById('typedLine');
+  let line = 0, pos = 0;
+
+  function typeStep(){
+    if(line >= lines.length) return;
+    const txt = lines[line];
+    if(pos <= txt.length){
+      el.textContent = txt.slice(0,pos);
+      pos++;
+      setTimeout(typeStep, 40 + Math.random()*50);
+    } else {
+      // pause, then next line appears on new row
+      line++;
+      pos = 0;
+      if(line < lines.length){
+        el.textContent += "\n";
+        setTimeout(typeStep, 600);
+      }
+    }
+  }
+  // Start typing once visible
+  typeStep();
+
+  // basic nav highlight on click + keyboard friendly
+  document.querySelectorAll('nav a').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      document.querySelectorAll('nav a').forEach(n=>n.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+    });
+  });
+
+  // contact form handler (opens mailto as fallback)
+  function handleForm(e){
+    e.preventDefault();
+    const name = encodeURIComponent(document.getElementById('name').value);
+    const email = encodeURIComponent(document.getElementById('email').value);
+    const msg = encodeURIComponent(document.getElementById('message').value);
+    // try to open mail client
+    const subject = encodeURIComponent(`Portfolio message from ${name}`);
+    const body = encodeURIComponent(`from: ${name} <${email}>\n\n${decodeURIComponent(msg)}`);
+    const mailto = `mailto:you@example.com?subject=${subject}&body=${body}`;
+    window.location.href = mailto;
+  }
+
+  // keyboard accessibility: Enter/Space on project cards triggers outline focus
+  document.querySelectorAll('.card-project').forEach(card=>{
+    card.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter' || e.key === ' '){
+        e.currentTarget.style.boxShadow = "inset 0 0 20px rgba(51,255,122,0.03)";
+        setTimeout(()=> e.currentTarget.style.boxShadow = "", 400);
+      }
+    });
+  });
+</script>
+</body>
+</html>
